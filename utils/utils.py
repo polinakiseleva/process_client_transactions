@@ -8,3 +8,10 @@ def func(par):
     return responce.json()
 
 
+def check_dict(list_data):
+    list1 = []
+    for i in list_data:
+        if len(dict) != 0:
+            list1.append(dict)
+        else:
+            continue
