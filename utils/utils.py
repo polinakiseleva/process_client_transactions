@@ -1,5 +1,6 @@
 import requests
 from operator import itemgetter
+import time
 
 URL = 'https://file.notion.so/f/s/d22c7143-d55e-4f1d-aa98-e9b15e5e5efc/operations.json?spaceId=0771f0bb-b4cb-4a14-bc05-94cbd33fc70d&table=block&id=f11058ed-10ad-42ea-a13d-aad1945e5421&expirationTimestamp=1678006423443&signature=LrRvgBmzJUjZRcDynWElQuoPThOTcQ7TWHsT_dTyv0I&downloadName=operations.json'
 
@@ -19,6 +20,18 @@ def check_dict(list_data):
 
 
 def sort_by_time(data_dict, key):
-
     sorted_data = sorted(data_dict, key=itemgetter(key), reverse=True)
     return sorted_data
+
+
+def date_edit(data_dict):
+    source = data_dict.get('date')
+    if source:
+        raw_date = source[: source.find('T')]
+        format_date = time.strptime(raw_date, "%Y-%m-%d")
+        new_format_date = time.strftime("d-%m-%Y", format_date)
+
+    else:
+        new_format_date = 'Ошибка при прочтении даты'
+
+    return new_format_date
