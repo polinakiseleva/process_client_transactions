@@ -5,7 +5,6 @@ URL = 'https://file.notion.so/f/s/d22c7143-d55e-4f1d-aa98-e9b15e5e5efc/operation
 
 def func(par):
     responce = requests.get(par)
-    result = responce.json()
-    return result
+    return responce.json()
 
 
