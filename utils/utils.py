@@ -56,15 +56,12 @@ def date_edit(data_dict):
     return new_format_date
 
 
-def output_of_the_last_transactions(data):
-    new_list = []
-    for i in data:
-        if i['state'] == "EXECUTED":
-            new_list.append(i)
-    return new_list[:5]
-
-
 def users_account_edit(dict):
+    """
+    Функция выводит название банковской карты или счета и зашифровывает эту информацию
+    :param dict: Словарь с информацией о банковской карте или счете пользователя
+    :return: Наименование и зашифрованный номер карты или счета
+    """
     payment = dict.get('from')
     if payment:
         if len(payment.split()) == 3:
@@ -85,6 +82,13 @@ def users_account_edit(dict):
 
 
 def beneficiary_account_editor(data_dict):
+    """
+    Функция преобразовывает счет получателя так, что на экран выводятся
+    6 последних цифр номера счета в формате **1234
+    :param data_dict: Словарь, в котором содержится информация о названии карты
+    или счета и сам набор цифр
+    :return: Наименование карты или счета и последние цифры в формате **1234
+    """
     source = data_dict.get('to')
 
     if len(source.split(' ')) == 2:
@@ -100,6 +104,20 @@ def beneficiary_account_editor(data_dict):
     coded_account = ''.join(account_number)
 
     return f'{name_card} {coded_account}'
+
+
+def output_of_the_last_transactions(data):
+    """
+    Функция экранирует последние 5 операций, которые прошли успешно
+    :param data: Словарь, в котором есть информация о всех
+    операциях (EXECUTED и CANCELED)
+    :return: Список успешных операций
+    """
+    new_list = []
+    for i in data:
+        if i['state'] == "EXECUTED":
+            new_list.append(i)
+    return new_list[:5]
 
 
 data = json_get(URL)
