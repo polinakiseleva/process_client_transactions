@@ -1,16 +1,25 @@
+import time
 import requests
 from operator import itemgetter
-import time
 
 URL = 'https://file.notion.so/f/s/d22c7143-d55e-4f1d-aa98-e9b15e5e5efc/operations.json?spaceId=0771f0bb-b4cb-4a14-bc05-94cbd33fc70d&table=block&id=f11058ed-10ad-42ea-a13d-aad1945e5421&expirationTimestamp=1678006423443&signature=LrRvgBmzJUjZRcDynWElQuoPThOTcQ7TWHsT_dTyv0I&downloadName=operations.json'
 
 
-def func(par):
+def json_get(par):
+    """
+    Функция для получения исходных данных
+    :return: Списковый словарь
+    """
     responce = requests.get(par)
     return responce.json()
 
 
 def check_dict(list_data):
+    """
+    Функция для проверки наличия пустых словарей в исходном
+    :param list_data: Списковый словарь
+    :return: Подготовленный списковый словарь без пустых словарей
+    """
     list1 = []
     for x in list_data:
         if len(x) != 0:
@@ -21,11 +30,22 @@ def check_dict(list_data):
 
 
 def sort_by_time(data_dict, key="date"):
+    """
+    Функция сортирует словарь по переданному ключу (в нашем случае по дате)
+    :param data_dict: Словарь, который нужно отсортировать
+    :param key: Ключ, по которому будем сортировать (по умолчанию - дата)
+    :return: Отсортированный по дате словарь
+    """
     sorted_data = sorted(data_dict, key=itemgetter(key), reverse=True)
     return sorted_data
 
 
 def date_edit(data_dict):
+    """
+    Функция преобразовывает полученную дату к стандартному виду
+    :param data_dict: Словарь, в котором дата представлена в виде ГГГГ.ММ.ДД
+    :return: Словарь, в котором дата представлена в виде ДД.ММ.ГГГГ
+    """
     source = data_dict.get('date')
     if source:
         raw_date = source[: source.find('T')]
@@ -82,7 +102,7 @@ def beneficiary_account_editor(data_dict):
     return f'{name_card} {coded_account}'
 
 
-data = func(URL)
+data = json_get(URL)
 data = check_dict(data)
 data = sort_by_time(data, 'date')
 data1 = output_of_the_last_transactions(data)
