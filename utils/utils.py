@@ -2,8 +2,7 @@ import time
 import requests
 from operator import itemgetter
 
-URL = 'https://file.notion.so/f/s/d22c7143-d55e-4f1d-aa98-e9b15e5e5efc/operations.json?spaceId=0771f0bb-b4cb-4a14-bc05-94cbd33fc70d&table=block&id=f11058ed-10ad-42ea-a13d-aad1945e5421&expirationTimestamp=1678625752381&signature=UioqGJcOsMW3ZtcUI-QLwZEdg3GzfcYTYd4VFm85eGE&downloadName=operations.json'
-
+URL = 'https://file.notion.so/f/s/d22c7143-d55e-4f1d-aa98-e9b15e5e5efc/operations.json?spaceId=0771f0bb-b4cb-4a14-bc05-94cbd33fc70d&table=block&id=f11058ed-10ad-42ea-a13d-aad1945e5421&expirationTimestamp=1678728125732&signature=nJUaFdh0rWbfW6wkhBzipP7HrtRtbqWMqcmIIehJAco&downloadName=operations.json'
 
 def json_get(par):
     """
@@ -118,14 +117,3 @@ def output_of_the_last_transactions(data):
         if i['state'] == "EXECUTED":
             new_list.append(i)
     return new_list[:5]
-
-
-data = json_get(URL)
-data = check_dict(data)
-data = sort_by_time(data, 'date')
-data1 = output_of_the_last_transactions(data)
-
-for i in data1:
-    print(f'{date_edit(i)} {i["description"]}\n'
-          f'{users_account_edit(i)} -> {beneficiary_account_editor(i)}\n'
-          f'{i["operationAmount"]["amount"]} {i["operationAmount"]["currency"]["name"]}\n')
